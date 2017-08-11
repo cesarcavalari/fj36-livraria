@@ -22,6 +22,8 @@ public class ConfiguracaoCamel {
 			public void configure() throws Exception {
 				from("jms:topic:jms/TOPICO.LIVRARIA?username=jms&password=jms2")
 				.log(LoggingLevel.INFO, "CAMEL: Recebendo MSG ${id}")
+				.filter().xpath("/pedido/itens/item/formato[text()='EBOOK']")
+				.split().xpath("/pedido/itens")
 				.to("jms:queue:jms/FILA.GERADOR?username=jms&password=jms2");
 			}
 		});
